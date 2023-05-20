@@ -88,14 +88,13 @@ async def censor_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
        print(f"The new directory {user_processed_images_dir} is created!")
     original_image_path = context.user_data["original_image_path"]
     original_image = cv2.imread(original_image_path)
-    reader = easyocr.Reader(['en', 'ru'], gpu=False)
-
+    reader = easyocr.Reader(['en', 'ru', 'ko', 'th'], gpu=False)
 
     result = reader.readtext(original_image_path, width_ths=0)
     processed_image_file_name = uuid.uuid4()
     full_processed_image_file_name = os.path.join(user_processed_images_dir, f"{processed_image_file_name}.jpg")
     for detection in result:
-        if detection[1] in censor_text:
+        if detection[1].casefold() in censor_text.casefold():
             top_left = tuple([int(val) for val in detection[0][0]])
             bottom_right = tuple([int(val) for val in detection[0][2]])
             processed_image = cv2.rectangle(original_image, top_left, bottom_right, (0,255,0),-1)
@@ -106,7 +105,13 @@ async def censor_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
         os.remove(full_processed_image_file_name)
 
     else:
-        await update.message.reply_text("Sorry, your text wasn't found on the image")
+        result_list = [f"{detection[1]}\n" for detection in result]
+        result_list = '\n'.join(result_list)
+        await update.message.reply_text(
+            "Sorry, your text wasn't found on the image.\n"
+            "Here's the list of what I found:\n"
+            f"{result_list}"
+        )
 
     os.remove(original_image_path)
     return ConversationHandler.END
