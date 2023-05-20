@@ -104,11 +104,11 @@ async def censor_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
     if os.path.exists(full_processed_image_file_name):
         await context.bot.send_document(chat_id=chat_id, document=full_processed_image_file_name)
         os.remove(full_processed_image_file_name)
-        os.remove(original_image_path)
 
     else:
         await update.message.reply_text("Sorry, your text wasn't found on the image")
 
+    os.remove(original_image_path)
     return ConversationHandler.END
 
 
