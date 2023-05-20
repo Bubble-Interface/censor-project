@@ -88,7 +88,7 @@ async def censor_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
        print(f"The new directory {user_processed_images_dir} is created!")
     original_image_path = context.user_data["original_image_path"]
     original_image = cv2.imread(original_image_path)
-    reader = easyocr.Reader(['en', 'ru', 'ko', 'th'], gpu=False)
+    reader = easyocr.Reader(['en', 'ru', 'ko'], gpu=False)
 
     result = reader.readtext(original_image_path, width_ths=0)
     processed_image_file_name = uuid.uuid4()
