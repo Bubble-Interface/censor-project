@@ -38,7 +38,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 async def censor(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     
     await update.message.reply_text(
-        "Please send me a image to censor\n"
+        "Please send me an image to censor\n"
         "Send /cancel to stop current censoring.\n\n"
     )
 
