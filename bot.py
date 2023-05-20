@@ -88,16 +88,8 @@ async def censor_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
        print(f"The new directory {user_processed_images_dir} is created!")
     original_image_path = context.user_data["original_image_path"]
     original_image = cv2.imread(original_image_path)
-    reader = easyocr.Reader(['en'], gpu=False)
+    reader = easyocr.Reader(['en', 'ru'], gpu=False)
 
-    await context.bot.send_message(
-        chat_id=chat_id,
-        text="Thank you for using this bot.\n"
-            "My broke ass creator couldn't afford a GPU server to process images faster.\n"
-            "I'll be right back with the results!")
-    await context.bot.send_animation(
-        chat_id=chat_id,
-        animation="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNDc2ZmFjMTZiN2YyNzRjOWY5NWE2YmI2NTM4NDFkOWZkNTY0MTliNyZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/l2SpZkQ0XT1XtKus0/giphy.gif")
 
     result = reader.readtext(original_image_path, width_ths=0)
     processed_image_file_name = uuid.uuid4()
