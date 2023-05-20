@@ -71,6 +71,15 @@ async def censor_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
     chat_id = update.effective_chat.id
     censor_text = update.message.text
 
+    await context.bot.send_message(
+        chat_id=chat_id,
+        text="Thank you for using this bot.\n"
+            "My broke ass creator couldn't afford a GPU server to process images faster.\n"
+            "I'll be right back with the results!")
+    await context.bot.send_animation(
+        chat_id=chat_id,
+        animation="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNDc2ZmFjMTZiN2YyNzRjOWY5NWE2YmI2NTM4NDFkOWZkNTY0MTliNyZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/l2SpZkQ0XT1XtKus0/giphy.gif")
+    
     user_processed_images_dir = os.path.join(images_dir, f"{user.username}_{user.id}", 'processed')
     exists = os.path.exists(user_processed_images_dir)
     if not exists:
